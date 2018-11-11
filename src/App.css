@@ -1,0 +1,184 @@
+
+.App {
+  text-align: center;
+  background: linear-gradient(#282c34, #2e3d5a);
+  /* background-color: #27344e; */
+}
+
+.App-header {
+  background: linear-gradient(#2e3d5a, #282c34);
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.newGame  {
+  /* background-color: #27344e; */
+  background: linear-gradient(#282c34, #2e3d5a);
+  height: 100%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  padding-top: 30px;
+  margin-top: 0px;
+}
+
+
+#link {
+  text-decoration: none;
+} 
+
+/* th, td, tr{
+  padding:5px;
+  margin: 5px;
+  border-spacing: 5px;
+} */
+#opponent-input {
+  width:420px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+#wager-input  {
+  width:420px;
+}
+#opponent-score {
+  width:50px
+}
+#home-score  {
+  width:50px;
+}
+Table {
+  width: 100%;
+  align-self: center;
+}
+.confirmGames {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  /* background-color:red; */
+}
+.createGames  {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+}
+.createGamesChild {
+  display: flex;
+  margin: 5px;
+  flex-direction: column;
+}
+.createGamesButton {
+  display: flex;
+  margin-top: 15px;
+  margin-bottom: 40px;
+  flex-direction: column;
+}
+
+
+.liveGameComponent  {
+  display: flex;
+  justify-content:center;
+  flex-direction: column;
+  color: white;
+}
+
+
+.liveGame {
+  display: flex;
+  flex-direction: row;
+  max-width: 100%;
+  flex-wrap: nowrap;
+  align-self: center;
+}
+
+.leftOfGameTable  {
+  overflow-wrap: break-word;
+  display:flex;
+  flex-direction: column;
+  background-color: rgb(48, 99, 48);
+  margin-top: 30px;
+  margin-right: 10px;
+}
+
+.liveGameTable {
+  background-image: url(./assets/blue-table-large.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-top: 30px;
+  color: white;
+  text-align: center;
+  align-items: center;
+  height: 555px;
+  width: 275px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #282c34;
+}
+
+.rightOfGameTable  {
+  overflow-wrap: break-word;
+  display:flex;
+  flex-direction: column-reverse;
+  background-color: rgb(48, 99, 48);
+  margin-top: 30px;
+  margin-left: 10px;
+}
+
+
+#flex-opponent-child1  {
+  width: 170px;
+  overflow-wrap: break-word;
+  /* background-color: pink; */
+}
+#flex-opponent-child2  {
+  padding-top: 20px;
+  padding-bottom: 58px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+#flex-me-child1  {
+  width: 170px;
+  overflow-wrap: break-word;
+  /* background-color: pink; */
+}
+#flex-me-child2  {
+  padding-bottom: 20px;
+  padding-top: 58px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+
+
+
+
+#flex-opponent  {
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start; */
+  padding-top: 15px;
+}
+#flex-me  {
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center; */
+  padding-bottom: 15px;
+}
