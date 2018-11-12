@@ -1,7 +1,6 @@
 import React from 'react';
 
 
-
 const PlayerRank = (props) => {
     
     function isMe() {
@@ -12,7 +11,6 @@ const PlayerRank = (props) => {
         return address;
     }
 
-    // console.log("key is: ", props.key)
     let rank = props.i + 1;
     return(
         <tr>
@@ -27,13 +25,6 @@ const PlayerRank = (props) => {
 
     )
 }
-
-
-
-
-
-
-
 
 
 export default PlayerRank

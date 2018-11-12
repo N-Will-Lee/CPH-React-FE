@@ -3,7 +3,6 @@ import PlayerRank from "./PlayerRank";
 import { Table } from "reactstrap";
 
 
-
 const Leaderboard = (props) => {
 
     function compare(a, b) {
@@ -19,6 +18,7 @@ const Leaderboard = (props) => {
         return comparison * -1;
       }
 
+    //grab all the unique users and return them in array
     function getUserAddresses() {
         let userAddresses = [];
         let confirmedGames = props.getAllConfirmedGames()
@@ -43,6 +43,7 @@ const Leaderboard = (props) => {
         return userAddresses;
     }
 
+    //return array of userRanking arrays where each array contains address, wins , losses, ratio, total games
     function buildLeaderboard() {
         let userRankings = [];
         let users = getUserAddresses();
@@ -60,13 +61,11 @@ const Leaderboard = (props) => {
         }
         return userRankings  
     }
-    
-    let orderedUserRankings = buildLeaderboard().sort(compare);
 
-    const createList = orderedUserRankings.map((type, i) =>  {
+    const createList = buildLeaderboard().sort(compare).map((user, i) =>  {
         return  (
             <PlayerRank 
-                user={orderedUserRankings[i]} 
+                user={user} 
                 i={i}
                 myAddress={props.myAddress}
             />
@@ -95,15 +94,6 @@ const Leaderboard = (props) => {
             </Table>
             <br/>
             <br/>
-            {/* <tr>
-                <th>Rank</th>
-                <th>Player</th>
-                <th>Games Played</th>
-                <th>Wins</th>
-                <th>Losses</th>
-                <th>Win/Loss Ratio</th>
-            </tr>
-            {createList} */}
             <br/>
             <br/>
         </div>
