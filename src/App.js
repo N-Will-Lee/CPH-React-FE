@@ -421,7 +421,7 @@ class App extends Component {
 
         let creatorAddress = (info[0].substring(0,info[0].length));
         let opponentAddress = (info[1].substring(0,info[1].length));
-        let winnerAddress = (info[2].substring(0,info[2].length -1));
+        let winnerAddress = (info[2].substring(0,info[2].length));
         let creatorScore = (Number(JSON.stringify(info[3]).substring(1,JSON.stringify(info[3]).length - 1)));
         let opponentScore = (Number(JSON.stringify(info[4]).substring(1,JSON.stringify(info[4]).length - 1)));
         //wager in Wei
@@ -533,7 +533,6 @@ class App extends Component {
 
   countWinsLossesTotal(address) {
     let confirmedGamesArray = this.getAllConfirmedGames()
-    console.log("confirmedGamesArray is: ", confirmedGamesArray)
     let wins = 0;
     let losses = 0;
     let total = 0;
