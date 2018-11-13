@@ -4,6 +4,8 @@ import UserLanding from './components/UserLanding';
 import LiveGame from './components/LiveGame';
 import Profile from './components/Profile';
 import Leaderboard from './components/Leaderboard';
+import InstallMetaMask from './components/InstallMetaMask';
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -16,249 +18,9 @@ class App extends Component {
   constructor (props) {
     super (props);
 
-    const CryptoPongHero = window.web3.eth.contract ([
-      {
-        "constant": true,
-        "inputs": [
-          {
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "name": "playerGameCount",
-        "outputs": [
-          {
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [
-          {
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "name": "users",
-        "outputs": [
-          {
-            "name": "id",
-            "type": "address"
-          },
-          {
-            "name": "userName",
-            "type": "string"
-          },
-          {
-            "name": "wins",
-            "type": "uint32"
-          },
-          {
-            "name": "losses",
-            "type": "uint32"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [
-          {
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "name": "gamesPlayed",
-        "outputs": [
-          {
-            "name": "creator",
-            "type": "address"
-          },
-          {
-            "name": "opponent",
-            "type": "address"
-          },
-          {
-            "name": "winner",
-            "type": "address"
-          },
-          {
-            "name": "op1Score",
-            "type": "uint8"
-          },
-          {
-            "name": "op2Score",
-            "type": "uint8"
-          },
-          {
-            "name": "wager",
-            "type": "uint256"
-          },
-          {
-            "name": "timeStamp",
-            "type": "uint256"
-          },
-          {
-            "name": "complete",
-            "type": "bool"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [
-          {
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "name": "gameToAwayPlayer",
-        "outputs": [
-          {
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "_gameId",
-            "type": "uint256"
-          }
-        ],
-        "name": "_confirmGame",
-        "outputs": [],
-        "payable": true,
-        "stateMutability": "payable",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [
-          {
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "name": "userIdToAddress",
-        "outputs": [
-          {
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "_walletAddress",
-            "type": "address"
-          },
-          {
-            "name": "_userName",
-            "type": "string"
-          }
-        ],
-        "name": "_createUser",
-        "outputs": [],
-        "payable": false,
-        "stateMutability": "nonpayable",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [
-          {
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "name": "gameToHomePlayer",
-        "outputs": [
-          {
-            "name": "",
-            "type": "address"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": true,
-        "inputs": [],
-        "name": "_getTotalGameNumber",
-        "outputs": [
-          {
-            "name": "",
-            "type": "uint256"
-          }
-        ],
-        "payable": false,
-        "stateMutability": "view",
-        "type": "function"
-      },
-      {
-        "constant": false,
-        "inputs": [
-          {
-            "name": "_cr",
-            "type": "address"
-          },
-          {
-            "name": "_opp",
-            "type": "address"
-          },
-          {
-            "name": "_winner",
-            "type": "address"
-          },
-          {
-            "name": "_crScore",
-            "type": "uint8"
-          },
-          {
-            "name": "_oppScore",
-            "type": "uint8"
-          },
-          {
-            "name": "_wager",
-            "type": "uint256"
-          },
-          {
-            "name": "_time",
-            "type": "uint256"
-          }
-        ],
-        "name": "_finish",
-        "outputs": [],
-        "payable": true,
-        "stateMutability": "payable",
-        "type": "function"
-      }
-    ]);
-
+    let CryptoPongHero;
     this.state = {
-      ContractInstance: CryptoPongHero.at ('0x78318B219D0B3a608E9ad0F5Af5AC5dF5b9dE635'),
+      ContractInstance: "",
       userName: "",
       creatorWalletAddress: "loading...",
       oppWalletAddress: "",
@@ -269,8 +31,278 @@ class App extends Component {
       allGames: [],
       gameCount: 0,
       confirmedGames: []
-
+      
     }
+    this.isWeb3 = true; //If metamask is installed  
+    // this.isWeb3Locked = false; //If metamask account is locked 
+    this.isWeb3Locked = false; //If metamask account is locked 
+    
+    let web3 = window.web3
+    //set web3 & truffle contract
+    if (typeof web3 !== 'undefined') {
+      CryptoPongHero = window.web3.eth.contract ([
+        {
+          "constant": true,
+          "inputs": [
+            {
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "name": "playerGameCount",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "name": "users",
+          "outputs": [
+            {
+              "name": "id",
+              "type": "address"
+            },
+            {
+              "name": "userName",
+              "type": "string"
+            },
+            {
+              "name": "wins",
+              "type": "uint32"
+            },
+            {
+              "name": "losses",
+              "type": "uint32"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "name": "gamesPlayed",
+          "outputs": [
+            {
+              "name": "creator",
+              "type": "address"
+            },
+            {
+              "name": "opponent",
+              "type": "address"
+            },
+            {
+              "name": "winner",
+              "type": "address"
+            },
+            {
+              "name": "op1Score",
+              "type": "uint8"
+            },
+            {
+              "name": "op2Score",
+              "type": "uint8"
+            },
+            {
+              "name": "wager",
+              "type": "uint256"
+            },
+            {
+              "name": "timeStamp",
+              "type": "uint256"
+            },
+            {
+              "name": "complete",
+              "type": "bool"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "name": "gameToAwayPlayer",
+          "outputs": [
+            {
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "_gameId",
+              "type": "uint256"
+            }
+          ],
+          "name": "_confirmGame",
+          "outputs": [],
+          "payable": true,
+          "stateMutability": "payable",
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "name": "userIdToAddress",
+          "outputs": [
+            {
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "_walletAddress",
+              "type": "address"
+            },
+            {
+              "name": "_userName",
+              "type": "string"
+            }
+          ],
+          "name": "_createUser",
+          "outputs": [],
+          "payable": false,
+          "stateMutability": "nonpayable",
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "name": "gameToHomePlayer",
+          "outputs": [
+            {
+              "name": "",
+              "type": "address"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "constant": true,
+          "inputs": [],
+          "name": "_getTotalGameNumber",
+          "outputs": [
+            {
+              "name": "",
+              "type": "uint256"
+            }
+          ],
+          "payable": false,
+          "stateMutability": "view",
+          "type": "function"
+        },
+        {
+          "constant": false,
+          "inputs": [
+            {
+              "name": "_cr",
+              "type": "address"
+            },
+            {
+              "name": "_opp",
+              "type": "address"
+            },
+            {
+              "name": "_winner",
+              "type": "address"
+            },
+            {
+              "name": "_crScore",
+              "type": "uint8"
+            },
+            {
+              "name": "_oppScore",
+              "type": "uint8"
+            },
+            {
+              "name": "_wager",
+              "type": "uint256"
+            },
+            {
+              "name": "_time",
+              "type": "uint256"
+            }
+          ],
+          "name": "_finish",
+          "outputs": [],
+          "payable": true,
+          "stateMutability": "payable",
+          "type": "function"
+        }
+      ]);
+      this.setState({
+        ContractInstance: CryptoPongHero.at ('0x78318B219D0B3a608E9ad0F5Af5AC5dF5b9dE635')
+      })
+      this.handleTotalGameNumber()
+      this.checkForAddress()
+        
+      // Use Mist/MetaMask's provider  
+      // this.web3Provider = web3.currentProvider;  
+      // this.web3 = new Web3(web3.currentProvider);  
+      
+      // this.tokenZendr = TruffleContract(TokenZendR);  
+      // this.tokenZendr.setProvider(this.web3Provider);  
+
+
+      // console.log("web3.eth.coinbase is: ", web3.eth.coinbase + "fin");
+      // if (web3.eth.coinbase === null) {
+      //   this.isWeb3Locked = true;  
+      // }
+
+    }else{  
+      this.isWeb3 = false;  
+    } 
+  
 
     this.createUser = this.createUser.bind (this);
     this.callUser = this.callUser.bind (this);
@@ -295,7 +327,7 @@ class App extends Component {
 
   componentWillMount() {
     // this.checkForAddress()
-    this.handleTotalGameNumber()
+    // this.handleTotalGameNumber()
   }
 
   componentDidMount() {
@@ -303,14 +335,12 @@ class App extends Component {
     //   console.log('done');
     //   this.handleRawGamesHistory()
     // })
-    this.checkForAddress()
+    // this.checkForAddress()
   }
 
-  componentDidUpdate()  {
-    // if (this.state.creatorWalletAddress !== undefined)  {
-    //   clearInterval(setInterval)
-    // }
-  }
+
+
+
 
   checkForAddress() {
     var timerid = setInterval(function()  {
@@ -319,7 +349,7 @@ class App extends Component {
       if(window.web3.eth.accounts[0]) {
 
         this.setState({creatorWalletAddress: window.web3.eth.accounts[0]});
-        this.handleTotalGameNumber()
+        // this.handleTotalGameNumber()
         this.handleRawGamesHistory()
         clearInterval(timerid);
       }
@@ -611,7 +641,9 @@ class App extends Component {
   
   
   render() {
-    return (
+    if(this.isWeb3) {  
+      if(this.isWeb3Locked) {  
+      return (
       <div className="App">
         <header className="App-header">
           <h1 className="App-title"> Crypto Pong Hero</h1>
@@ -621,7 +653,8 @@ class App extends Component {
             <BreadcrumbItem><Link to="leaderboard">LeaderBoard</Link></BreadcrumbItem>
             <BreadcrumbItem><Link to="/">Home</Link></BreadcrumbItem>
             <BreadcrumbItem><Link to="/profile">profile</Link></BreadcrumbItem>
-            <BreadcrumbItem className="float-right">My Address: {this.state.creatorWalletAddress}</BreadcrumbItem>
+            {/* <BreadcrumbItem className="float-right">My Address: {this.state.creatorWalletAddress}</BreadcrumbItem> */}
+            <BreadcrumbItem className="float-right">My Address: Please Unlock Your Metamask Account</BreadcrumbItem>
           </Breadcrumb>
         </nav>
         <Container>
@@ -668,7 +701,73 @@ class App extends Component {
         <br />
         <br />
       </div>
-    );
+      )
+      }else{
+        return(
+        <div className="App">
+        <header className="App-header">
+          <h1 className="App-title"> Crypto Pong Hero</h1>
+        </header>
+        <nav>
+          <Breadcrumb>
+            <BreadcrumbItem><Link to="leaderboard">LeaderBoard</Link></BreadcrumbItem>
+            <BreadcrumbItem><Link to="/">Home</Link></BreadcrumbItem>
+            <BreadcrumbItem><Link to="/profile">profile</Link></BreadcrumbItem>
+            <BreadcrumbItem className="float-right">My Address: {this.state.creatorWalletAddress}</BreadcrumbItem>
+            {/* <BreadcrumbItem className="float-right">My Address: Please Unlock Your Metamask Account</BreadcrumbItem> */}
+          </Breadcrumb>
+        </nav>
+        <Container>
+          <Router>
+            <UserLanding  
+              path="/"  
+              myAddress={this.state.creatorWalletAddress}
+              setOppWalletAddress={this.setOppWalletAddress}  
+              setWager={this.setWager} 
+              gameCount={this.state.gameCount}
+              allGames={this.state.allGames}
+              handleConfirmGame={this.handleConfirmGame}
+              timeConverter={this.timeConverter}
+            />
+            <LiveGame 
+              path="/game"  
+              wager={this.state.wager}
+              oppWalletAddress={this.state.oppWalletAddress} 
+              myAddress={this.state.creatorWalletAddress}
+              submitGame={this.submitGame}
+              setOppScore={this.setOppScore}
+              setCreatorScore={this.setCreatorScore} 
+              declareCreatorWinner={this.declareCreatorWinner}
+              declareOpponentWinner={this.declareOpponentWinner}
+              winner={this.state.winner}
+            />
+            <Profile 
+              path="/profile"
+              myAddress={this.state.creatorWalletAddress}
+              gameCount={this.state.gameCount}
+              allGames={this.state.allGames}
+              handleConfirmGame={this.handleConfirmGame}
+              timeConverter={this.timeConverter}
+              countWinsLossesTotal={this.countWinsLossesTotal}
+            />
+            <Leaderboard
+              path="/leaderboard"
+              getAllConfirmedGames={this.getAllConfirmedGames}
+              countWinsLossesTotal={this.countWinsLossesTotal}
+              myAddress={this.state.creatorWalletAddress}
+            />
+          </Router>
+        </Container>
+        <br />
+        <br />
+      </div>
+      )
+      }
+    }else{
+      return(
+        <InstallMetaMask />
+      )
+    }
   }
 }
 
