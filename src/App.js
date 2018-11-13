@@ -20,7 +20,8 @@ class App extends Component {
 
     let CryptoPongHero;
     this.state = {
-      ContractInstance: "",
+      // ContractInstance: CryptoPongHero.at ('0x78318B219D0B3a608E9ad0F5Af5AC5dF5b9dE635'),
+      ContractInstance: '',
       userName: "",
       creatorWalletAddress: "loading...",
       oppWalletAddress: "",
@@ -39,6 +40,7 @@ class App extends Component {
     
     let web3 = window.web3
     //set web3 & truffle contract
+    console.log("typeof web3 is: ", web3)
     if (typeof web3 !== 'undefined') {
       CryptoPongHero = window.web3.eth.contract ([
         {
@@ -283,8 +285,8 @@ class App extends Component {
       this.setState({
         ContractInstance: CryptoPongHero.at ('0x78318B219D0B3a608E9ad0F5Af5AC5dF5b9dE635')
       })
-      this.handleTotalGameNumber()
-      this.checkForAddress()
+      // this.handleTotalGameNumber()
+      // this.checkForAddress()
         
       // Use Mist/MetaMask's provider  
       // this.web3Provider = web3.currentProvider;  
@@ -335,7 +337,8 @@ class App extends Component {
     //   console.log('done');
     //   this.handleRawGamesHistory()
     // })
-    // this.checkForAddress()
+    this.checkForAddress()
+    // this.handleTotalGameNumber()
   }
 
 
@@ -351,6 +354,7 @@ class App extends Component {
         this.setState({creatorWalletAddress: window.web3.eth.accounts[0]});
         // this.handleTotalGameNumber()
         this.handleRawGamesHistory()
+        this.handleTotalGameNumber()
         clearInterval(timerid);
       }
     }.bind(this), 1000)
